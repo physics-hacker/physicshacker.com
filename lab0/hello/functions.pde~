@@ -1,0 +1,6 @@
+/* @pjs globalKeyEvents="true"; */
+
+void display() {
+     background(255); //Set background to white
+}
+
