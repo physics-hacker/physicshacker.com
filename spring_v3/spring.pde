@@ -36,11 +36,6 @@ void setup() {
   size(750,500);
   x = 0.7*width;
   y = height/2;
-  println("physicshacker.com  Copyright (C) 2015  Chris Orban");
-  println("This program comes with ABSOLUTELY NO WARRANTY");
-  println("This is free software, and you are welcome to redistribute it");
-  println("under certain conditions of the GNU General Public License. ");
-  println("See http://www.gnu.org/licenses/ for details. ");
 }
 
 // For people with C and C++ experience, draw() is

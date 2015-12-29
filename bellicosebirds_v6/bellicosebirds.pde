@@ -28,11 +28,6 @@ void setup() {
   x = 0.2*width;
   y = 0.95*height;
   img = loadImage("http://www.physics.ohio-state.edu/~orban/processing_2015/rougebird.jpg");
-  println("physicshacker.com  Copyright (C) 2015  Chris Orban");
-  println("This program comes with ABSOLUTELY NO WARRANTY");
-  println("This is free software, and you are welcome to redistribute it");
-  println("under certain conditions of the GNU General Public License. ");
-  println("See http://www.gnu.org/licenses/ for details. ");
 }
 
 // For people with C and C++ experience, draw() is
