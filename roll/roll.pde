@@ -45,6 +45,11 @@ void setup() {
   particles = new ArrayList<Particle>();
 
   surface_vector = new ArrayList<Vec2>();
+  println("physicshacker.com  Copyright (C) 2015  Chris Orban");
+  println("This program comes with ABSOLUTELY NO WARRANTY");
+  println("This is free software, and you are welcome to redistribute it");
+  println("under certain conditions of the GNU General Public License. ");
+  println("See http://www.gnu.org/licenses/ for details. ");
 }
 
 void draw() {
