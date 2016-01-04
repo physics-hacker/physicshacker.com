@@ -195,8 +195,11 @@ class BaseGraph{
   public int thicknessAxis = 1;
   public int thicknessBorder = 1;
   
-  public String xTitle = new String("X Axis");
-  public String yTitle = new String("Y Axis");
+//  public String xTitle = new String("X Axis");
+//  public String yTitle = new String("Y Axis");
+  public String xTitle = new String("");
+  public String yTitle = new String("");
+  
   
   // The color of the line to be drawn. 
   public color colorFunction = color(0,0,0);

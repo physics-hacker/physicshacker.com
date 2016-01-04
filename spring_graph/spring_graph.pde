@@ -33,7 +33,9 @@ float b = 0.1;
 float tcounter = 0;
 float tlasttime = 0;
 
-DPGraph graph = new DPGraph();
+DPGraph graph1 = new DPGraph();
+DPGraph graph2 = new DPGraph();
+
 
 // This file serves as a demo file for the project.
 void setup() {
@@ -41,11 +43,16 @@ void setup() {
   x = 0.7*width;
   y = height/2;
   
-  graph.setSize(200,200);
-  graph.setPosition(500,250);
+  graph1.setSize(200,200);
+  graph1.setPosition(500,250);
+  graph1.colorFunction = color(150,150,150); //gray
+  
+  graph2.setSize(200,200);
+  graph2.setPosition(500,250);    
+  graph2.colorFunction = color(255,0,0); // red
     
-  graph.xTitle = "time";
-  graph.yTitle = "x";
+  graph1.xTitle = "time";
+  graph1.yTitle = "x";
   
 }
 
@@ -109,7 +116,11 @@ void draw(){
   text(tlasttime,0.75*width,0.8*height);
 */
 
- graph.addPoint(x_blob-Lrelaxed);
- graph.display();
+ graph1.addPoint(x_blob-Lrelaxed);
+ graph1.display();
+ 
+ graph2.addPoint(vx_blob);
+ graph2.display();
+ 
 
 }
