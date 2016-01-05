@@ -12,6 +12,9 @@ float r = 12;
 
 boolean showarrows = true;
 
+int iteration = 0;
+int launch_iteration=1;
+
 // Draw the ship and other stuff
 void display() { 
 //    wrapEdges();
@@ -32,6 +35,10 @@ void display() {
     rectMode(CENTER);
     popMatrix();
 */
+    iteration += 1;
+    if (keyPressed && (key == ' ')) {
+    launch_iteration = iteration;
+    }
     fill(0);
     text("left right arrows to turn, tap up arrow to thrust, press H to hide the arrows, press U to un-hide",10,10);
     image(img,x-12,y-12,25,25);
@@ -268,8 +275,7 @@ class DPGraph extends BaseGraph{
     double dSizeX = (double)m_size_x;
     double dSizeY = (double)m_size_y;
     
-    double incX = ((double)m_points.size()) / dSizeX;
-      
+//    double incX = ((double)m_points.size()) / dSizeX;
     // The max/min y values. 
     double maxY = 0;
     double minY = 0;
@@ -302,65 +308,44 @@ class DPGraph extends BaseGraph{
     
     int oxi = 0;
     int oyi = 0;
-    int opos = 1;
-    
-    boolean shouldSkip = true;
-    
+        
     // Draw the shape
-    for( int xi = 0; xi <= m_size_x; ++xi){
-      double dX = xi;
-      int pos = (int)(dX * incX);
-    /*    
-      if (pos == opos) {
-        shouldSkip = true;
-        continue;
-      } else opos = pos;
-      */
-      
+    for( int xi = 0; xi < m_size_x; ++xi){
+      //int pos = (int)(xi * incX);
+      int pos = (int)(m_points.size()*xi/m_size_x);              
       // If the index is oob, skip. 
-      if(pos >= m_points.size()) continue;
-      
-//      int yi = (int)(-0.5 * m_size_y * (m_points.get(pos) - 0.5*(maxY+minY))/(0.5*(abs((float)(maxY-minY)))));
-      int yi = (int)((-m_size_y*m_points.get(pos)/(0.5*mass*vinit*vinit))/maxMarginPercent);    
+        float i_div_l = (float)iteration/((float)launch_iteration);
+//      int yi = (int)(-0.5 * m_size_y * (m_points.get(pos) - 0.5*(maxY+minY))/(0.5*(abs((float)(maxY-minY))))); //spring
+      int startpos = (int)((float)m_points.size()/((float)i_div_l))-1;
+      int yi = (int)((-m_size_y*m_points.get(startpos+(m_points.size()-startpos)*pos/m_points.size()))/(0.5*mass*vinit*vinit)/maxMarginPercent);
+
       // Skip the first iteration as no previous value has been ascertained. 
-      if(!shouldSkip) {
-        int x1 = oxi+m_x;
+        int x1 = oxi + m_x;
         int y1 = oyi + m_y + m_size_y;
-        int x2 = xi+m_x;
+        int x2 = xi + m_x;
         int y2 = yi + m_y + m_size_y;
               
         // Check for conditions where the line is out of bounds. 
-     /*  
         if(x1<m_x||x1>m_x+m_size_x){
-          shouldSkip = true;
           continue;
         }
         if(x2<m_x||x2>m_x+m_size_x){
-          shouldSkip = true;
           continue;
         }
         if(y1<m_y||y1>m_y+m_size_y){
-          shouldSkip = true;
           continue;
         }
         if(y2<m_y||y2>m_y+m_size_y){
-          shouldSkip = true;
           continue;
         }
-     */   
         // If all checks succeeded, add the line to the queue to be drawn. 
         m_lines.add(new Line(x1, y1, x2, y2));
-      }else{
-        shouldSkip = false;
-      }
       
       // Update the old position. 
       oxi = xi;
       oyi = yi;
     }
-    
-    shouldSkip = true;
-   
+       
   draw();
   setTitle();
   }//display()
