@@ -36,23 +36,17 @@ float tlasttime = 0;
 DPGraph graph1 = new DPGraph();
 DPGraph graph2 = new DPGraph();
 
-
 // This file serves as a demo file for the project.
 void setup() {
   size(750,500);
   x = 0.7*width;
   y = height/2;
   
-  graph1.setSize(200,200);
-  graph1.setPosition(500,250);
   graph1.colorFunction = color(150,150,150); //gray
-  
-  graph2.setSize(200,200);
-  graph2.setPosition(500,250);    
-  graph2.colorFunction = color(255,0,0); // red
-    
   graph1.xTitle = "time";
   graph1.yTitle = "x";
+  
+  graph2.colorFunction = color(255,0,0); // red
   
 }
 

@@ -145,12 +145,12 @@ class BaseGraph{
   protected ArrayList<Line> m_lines = new ArrayList<Line>();
   protected ArrayList<Line> m_lines_axis = new ArrayList<Line>();
   protected ArrayList<Line> m_lines_border = new ArrayList<Line>();
+
+  protected int m_x = 500;
+  protected int m_y = 250;
   
-  protected int m_x = 0;
-  protected int m_y = 0;
-  
-  protected int m_size_x = 0;
-  protected int m_size_y = 0;
+  protected int m_size_x = 200;
+  protected int m_size_y = 200;
   
   public int fontSize = 25;
   
