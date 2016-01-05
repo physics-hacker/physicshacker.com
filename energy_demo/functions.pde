@@ -188,7 +188,7 @@ class BaseGraph{
   public void setTitle(){
     textSize(fontSize);
     fill(0,0,0);
-    text(xTitle, (float)(m_x + m_size_x - xTitle.length()*fontSize/2), (float)(m_y + m_size_y/2 + 25));
+    text(xTitle, (float)(m_x + m_size_x - xTitle.length()*fontSize/2), (float)(m_y + m_size_y + 25));
     text(yTitle, (float)(m_x - 25), (float)(m_y + fontSize));
   }
   
@@ -247,7 +247,7 @@ class DPGraph extends BaseGraph{
   
   protected ArrayList<Double> m_points = new ArrayList<Double>();
   
-  public double maxMarginPercent = 1.25;
+  public double maxMarginPercent = 1.4;
   
   public boolean logScaling = false;
     
@@ -283,14 +283,13 @@ class DPGraph extends BaseGraph{
     maxY *= maxMarginPercent;
     
     //double incY = 0.5*dSizeY /abs((float)(maxY-minY));
-    //println(minY);
-    //println(incY);
+
     // If the axis needs to be drawn, add the necessary lines to the queue. 
     if(drawAxis){
       // draw y-axis
       m_lines_axis.add(new Line(m_x,m_y,m_x,m_y+m_size_y));
       // draw x-axis
-      m_lines_axis.add(new Line(m_x,m_y+m_size_y/2,m_x+m_size_x,m_y+m_size_y/2));
+      m_lines_axis.add(new Line(m_x,m_y+m_size_y,m_x+m_size_x,m_y+m_size_y));
     }
     
     // If the border needs to be drawn, add the necessary lines to the queue. 
@@ -303,6 +302,7 @@ class DPGraph extends BaseGraph{
     
     int oxi = 0;
     int oyi = 0;
+    int opos = 1;
     
     boolean shouldSkip = true;
     
@@ -310,21 +310,27 @@ class DPGraph extends BaseGraph{
     for( int xi = 0; xi <= m_size_x; ++xi){
       double dX = xi;
       int pos = (int)(dX * incX);
-        
+    /*    
+      if (pos == opos) {
+        shouldSkip = true;
+        continue;
+      } else opos = pos;
+      */
+      
       // If the index is oob, skip. 
       if(pos >= m_points.size()) continue;
       
-      int yi = (int)(-0.5 * m_size_y * (m_points.get(pos) - 0.5*(maxY+minY))/(0.5*(abs((float)(maxY-minY)))));
-      
+//      int yi = (int)(-0.5 * m_size_y * (m_points.get(pos) - 0.5*(maxY+minY))/(0.5*(abs((float)(maxY-minY)))));
+      int yi = (int)((-m_size_y*m_points.get(pos)/(0.5*mass*vinit*vinit))/maxMarginPercent);    
       // Skip the first iteration as no previous value has been ascertained. 
       if(!shouldSkip) {
         int x1 = oxi+m_x;
-        int y1 = oyi+m_y+m_size_y/2;
+        int y1 = oyi + m_y + m_size_y;
         int x2 = xi+m_x;
-        int y2 = yi+m_y+m_size_y/2;
+        int y2 = yi + m_y + m_size_y;
               
         // Check for conditions where the line is out of bounds. 
-       
+     /*  
         if(x1<m_x||x1>m_x+m_size_x){
           shouldSkip = true;
           continue;
@@ -341,7 +347,7 @@ class DPGraph extends BaseGraph{
           shouldSkip = true;
           continue;
         }
-        
+     */   
         // If all checks succeeded, add the line to the queue to be drawn. 
         m_lines.add(new Line(x1, y1, x2, y2));
       }else{

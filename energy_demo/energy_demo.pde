@@ -32,9 +32,12 @@ void setup() {
 
   graph1.setSize(200,200);
   graph1.setPosition(500,250);
+  graph1.colorFunction = color(255,177,100); //orange
+  graph1.xTitle = "time";
 
   graph2.setSize(200,200);
   graph2.setPosition(500,250);
+  graph2.colorFunction = color(0,191,191); //aqua
 
   graph3.setSize(200,200);
   graph3.setPosition(500,250);
@@ -109,7 +112,7 @@ void draw() {
   graph1.addPoint(KE);
   graph1.display();
   
-  float PE = mass*g*(-y);
+  float PE = -mass*g*(y-0.95*height);
   graph2.addPoint(PE);
   graph2.display();
 
