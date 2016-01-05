@@ -252,9 +252,9 @@ class BaseGraph{
 
 class DPGraph extends BaseGraph{
   
-  protected ArrayList<Double> m_points = new ArrayList<Double>();
+  protected ArrayList<Float> m_points = new ArrayList<Float>();
   
-  public double maxMarginPercent = 1.4;
+  public float maxMarginPercent = 1.4;
   
   public boolean logScaling = false;
     
@@ -262,7 +262,7 @@ class DPGraph extends BaseGraph{
     m_points.clear();
   }
   
-  public void addPoint(double _p){
+  public void addPoint(float _p){
     m_points.add(_p);
   }
   
@@ -271,14 +271,14 @@ class DPGraph extends BaseGraph{
     m_lines_axis.clear();
     m_lines_border.clear();
         
-    // Parse the size to a double, and store this data. 
-    double dSizeX = (double)m_size_x;
-    double dSizeY = (double)m_size_y;
+    // Parse the size to a float, and store this data. 
+    float dSizeX = (float)m_size_x;
+    float dSizeY = (float)m_size_y;
     
-//    double incX = ((double)m_points.size()) / dSizeX;
+//    float incX = ((float)m_points.size()) / dSizeX;
     // The max/min y values. 
-    double maxY = 0;
-    double minY = 0;
+    float maxY = 0;
+    float minY = 0;
     
     for( int i = 0; i < m_points.size(); ++i){
       if(m_points.get(i) > maxY) maxY = m_points.get(i);
@@ -288,7 +288,7 @@ class DPGraph extends BaseGraph{
     minY *= maxMarginPercent;
     maxY *= maxMarginPercent;
     
-    //double incY = 0.5*dSizeY /abs((float)(maxY-minY));
+    //float incY = 0.5*dSizeY /abs((float)(maxY-minY));
 
     // If the axis needs to be drawn, add the necessary lines to the queue. 
     if(drawAxis){
@@ -311,14 +311,17 @@ class DPGraph extends BaseGraph{
         
     // Draw the shape
     for( int xi = 0; xi < m_size_x; ++xi){
-      //int pos = (int)(xi * incX);
-      int pos = (int)(m_points.size()*xi/m_size_x);              
-      // If the index is oob, skip. 
-        float i_div_l = (float)iteration/((float)launch_iteration);
-//      int yi = (int)(-0.5 * m_size_y * (m_points.get(pos) - 0.5*(maxY+minY))/(0.5*(abs((float)(maxY-minY))))); //spring
+//      int pos = (int)(xi*(((float)m_points.size())/((float)m_size_x)));
+      int pos = (int)(m_points.size()*xi/m_size_x);
+//      float i_div_l = (float)(iteration/launch_iteration);
+       float i_div_l = (float)iteration/((float)launch_iteration);
+      //if (launch_iteration > 1) println(launch_iteration);
       int startpos = (int)((float)m_points.size()/((float)i_div_l))-1;
-      int yi = (int)((-m_size_y*m_points.get(startpos+(m_points.size()-startpos)*pos/m_points.size()))/(0.5*mass*vinit*vinit)/maxMarginPercent);
-
+      int adjustedpos = startpos + ceil(((float)((m_points.size()-1-startpos)*pos))/((float)m_points.size()));
+      //println(adjustedpos);
+      //int yi = (int)(((-m_size_y*m_points.get(adjustedpos)))/(0.5*mass*vinit*vinit)/maxMarginPercent);
+      int yi = (int)((-m_size_y*m_points.get(adjustedpos))/(0.5*mass*vinit*vinit)/maxMarginPercent);
+      //if (launch_iteration > 1) println(yi);
       // Skip the first iteration as no previous value has been ascertained. 
         int x1 = oxi + m_x;
         int y1 = oyi + m_y + m_size_y;
@@ -378,8 +381,8 @@ class DPGraph extends BaseGraph{
 }
 
 class CPoint{
-  public double x, y;
-  CPoint(double _x, double _y){
+  public float x, y;
+  CPoint(float _x, float _y){
     x = _x;
     y = _y;
   }
