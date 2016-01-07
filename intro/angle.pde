@@ -36,7 +36,7 @@ void draw() {
 //  String message = "theta = " + theta;
   textSize(30);
   text("theta = ",0.4*width,0.4*height);
-  text(theta*180./PI,0.6*width,0.4*height);
+  text(ceil(theta*180./PI),0.6*width,0.4*height);
 
   // Turn or thrust the ship depending on what key is pressed
   if (keyPressed) {

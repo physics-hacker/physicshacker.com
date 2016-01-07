@@ -1,9 +1,7 @@
-// Planetoids code by Chris Orban
-
 float x;
 float y;
 
-float vx;
+float vx = -50;
 float vy;
 
 float deltaVx;
@@ -29,21 +27,32 @@ float vy_blob;
 
 float k = 0.5;
 
+//Damping coefficient
+float b = 0.1;
+
 float tcounter = 0;
 float tlasttime = 0;
 
+DPGraph graph1 = new DPGraph();
+DPGraph graph2 = new DPGraph();
+
+// This file serves as a demo file for the project.
 void setup() {
   size(750,500);
   x = 0.7*width;
   y = height/2;
+  
+  graph1.colorFunction = color(150,150,150); //gray
+  graph1.xTitle = "time";
+  graph1.yTitle = "x";
+  
+  graph2.colorFunction = color(255,0,0); // red
+  
 }
 
-// For people with C and C++ experience, draw() is
-// very similar to main(), except that draw() 
-// is run over and over again 
-void draw() {
+void draw(){
   
-  // Update velocities
+    // Update velocities
   vx += deltaVx;
   vx_blob += deltaVx_blob;
 
@@ -54,7 +63,7 @@ void draw() {
   // Set deltaV to zero (thrust off unless user turns it on)
   deltaVx = 0;
 
-  float Fspring = -k*(x_blob-Lrelaxed);
+  float Fspring = -k*(x_blob-Lrelaxed)-b*vx_blob;
   deltaVx_blob = Fspring/mass_blob*dt;
 
   float dx_blob = x - x_blob;
@@ -86,19 +95,26 @@ void draw() {
   display();
 
   ellipse(x_blob,y_blob,radius_blob,radius_blob);
-
+/*
   text("counter time = ",0.7*width,0.6*height);
   text(tcounter,0.75*width,0.65*height); 
-
+*/
   tcounter += dt;
   if ((abs(x_blob - Lrelaxed) < 5.0) & (tcounter > 10*dt)) {
   tlasttime = tcounter;
   tcounter = 0;
   } 
   
+  /*
   text("half cycle time = ",0.7*width,0.75*height);
   text(tlasttime,0.75*width,0.8*height);
+*/
 
-} // end draw()
+ graph1.addPoint(x_blob-Lrelaxed);
+ graph1.display();
+ 
+ graph2.addPoint(vx_blob);
+ graph2.display();
+ 
 
-
+}
